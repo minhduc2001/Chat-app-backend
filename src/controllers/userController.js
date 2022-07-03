@@ -64,19 +64,20 @@ class UserController {
             const userId = req.params.id;
             const avatar = req.body.avatar;
             const username = req.body.username;
-
+            console.log(userId, avatar, username);
             const userData = await User.findByIdAndUpdate(userId, {
                 isAvatarSet: true,
                 avatar: avatar,
                 username: username
-            })
-            
-            return res.json({
-                isSet: true,
-                avatar: userData.avatar,
-                username: userData.username
-            })
-
+            }, {new: true});
+            console.log('data', userData);
+            if (userData)
+                return res.json({
+                    isSet: true,
+                    avatar: userData.avatar,
+                    username: userData.username
+                })
+            return res.json({isSet: false})
         } catch (error) {
             next(error);
         }
@@ -84,9 +85,9 @@ class UserController {
 
     async getAllUsers(req, res, next) {
         try {
-            
+
             const users = await User.find({ _id: { $ne: req.params.id } }).select([
-                'email','username','avatar','_id'
+                'email', 'username', 'avatar', '_id'
             ])
 
             return res.json(users);
