@@ -26,7 +26,7 @@ const server = http.listen(port, () => {
 
 const io = new Server(server,{
     cors:{
-        origin: 'http://localhost:3000'
+        origin: 'https://adagaki-aki.herokuapp.com'
     }
 })
 
